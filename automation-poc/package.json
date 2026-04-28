@@ -1,9 +1,9 @@
 {
-  "name": "automation-poc",
+  "name": "ecommerce-poc",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "A simple React landing page POC to demonstrate automation capability.",
+  "description": "A simple 5-page React e-commerce POC using FakeStore API.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",

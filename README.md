@@ -1,37 +1,64 @@
-# Automation POC — Landing Page
+# Shoply — E-commerce POC
 
-A minimal single-page React landing site, built as a **proof of concept** to demonstrate end-to-end automation capability (CI/CD, deployment, observability).
+A simple multi-page React e-commerce application built as a proof of concept. Demonstrates routing, global state, API integration, and end-to-end automation (CI/CD via GitHub Actions to GitHub Pages).
 
-The intent is **not** to ship a real product — it's to give the automation pipeline something real to build, deploy, and monitor.
+The intent is **not** to ship a real store — it's a working demo of a SPA with realistic e-commerce flows.
+
+---
+
+## Pages
+
+1. **Home** (`/`) — Hero section with featured products fetched from the API
+2. **Products** (`/products`) — Full catalog with category filtering
+3. **Product Details** (`/products/:id`) — Single product view with quantity selector + add to cart
+4. **Cart** (`/cart`) — Shopping cart with quantity adjustments and order summary
+5. **Contact** (`/contact`) — Contact form with company info
+
+Plus a 404 page for unmatched routes.
 
 ---
 
 ## Stack
 
-- **React 18** (single-file component)
+- **React 18** with React Router v6
 - **Vite** for dev server + build
-- **Plain CSS** (no framework, no preprocessor) — fonts via Google Fonts
+- **React Context** for cart state management
+- **FakeStore API** ([fakestoreapi.com](https://fakestoreapi.com)) for product data
+- **Plain CSS** — fonts via Google Fonts (Playfair Display + Inter)
 
-No backend. No database. Pure static output after `npm run build`.
+No backend, no database, no auth. Pure client-side SPA.
 
 ---
 
 ## Project Structure
 
 ```
-automation-poc/
+ecommerce-poc/
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml      # CI: build + deploy to GitHub Pages
-├── index.html              # Vite entry
+│       └── deploy.yml              # CI: build + deploy to GitHub Pages
+├── index.html                      # Vite entry
 ├── package.json
 ├── vite.config.js
 ├── .gitignore
 ├── README.md
 └── src/
-    ├── main.jsx            # React bootstrap
-    ├── App.jsx             # The landing page (single-file component)
-    └── styles.css
+    ├── main.jsx                    # React + router + cart provider
+    ├── App.jsx                     # Routes
+    ├── styles.css                  # All styles
+    ├── components/
+    │   ├── Navbar.jsx
+    │   ├── Footer.jsx
+    │   └── ProductCard.jsx
+    ├── context/
+    │   └── CartContext.jsx         # Global cart state
+    └── pages/
+        ├── Home.jsx
+        ├── Products.jsx
+        ├── ProductDetails.jsx
+        ├── Cart.jsx
+        ├── Contact.jsx
+        └── NotFound.jsx
 ```
 
 ---
@@ -62,79 +89,49 @@ npm run preview
 
 ## CI / CD Pipeline
 
-This repo includes a GitHub Actions workflow at **`.github/workflows/deploy.yml`** that:
+GitHub Actions workflow at `.github/workflows/deploy.yml`:
 
-1. Triggers on every push to `main` (also runnable manually from the Actions tab)
-2. Installs dependencies with `npm ci`
-3. Builds the production bundle (`npm run build`)
-4. Deploys the `dist/` folder to **GitHub Pages**
+1. Triggers on every push to `main` (also runnable manually)
+2. Installs dependencies with `npm install`
+3. Builds the production bundle (`npm run build`) with the correct base path for GitHub Pages
+4. Adds a `404.html` fallback (required for SPA routing on Pages)
+5. Deploys the `dist/` folder to GitHub Pages
 
 ### One-time setup on GitHub
 
-After pushing the repo, enable Pages so the workflow has a target:
-
 1. Go to **Settings → Pages**
 2. Under **Build and deployment → Source**, select **GitHub Actions**
-3. Push to `main` (or click **Run workflow** in the Actions tab) — the site goes live at:
+3. Push to `main` — site deploys to:
 
 ```
 https://<your-username>.github.io/<repo-name>/
 ```
 
-### How it works
-
-- The workflow injects `VITE_BASE_PATH=/<repo-name>/` at build time so all asset paths resolve correctly under the Pages subpath.
-- Locally, `vite.config.js` falls back to `/`, so `npm run dev` keeps working as normal.
-- The `build` and `deploy` jobs are split — easy to extend later with a `test` or `lint` job in between.
-
-### Pipeline status
-
-Once pushed, you can add a status badge to the top of this README:
-
-```markdown
-![Deploy](https://github.com/<user>/<repo>/actions/workflows/deploy.yml/badge.svg)
-```
-
 ---
 
-## Pushing to Git
+## Key Implementation Details
 
-If you haven't initialized a repo yet:
+### Cart state
+Managed via `CartContext` — provides `addToCart`, `removeFromCart`, `updateQuantity`, `clearCart`, and computed `totalItems` / `totalPrice`. State is in-memory only (resets on page refresh).
 
-```bash
-git init
-git add .
-git commit -m "chore: initial commit — automation POC landing page"
+### SPA routing on GitHub Pages
+GitHub Pages serves static files only and doesn't know about client-side routes. When a user refreshes `/products/5`, Pages returns 404. The workflow copies `index.html` → `404.html`, so any 404 falls back to the React app, which then renders the correct route.
 
-# create a repo on GitHub/GitLab/Bitbucket, then:
-git remote add origin <YOUR_REMOTE_URL>
-git branch -M main
-git push -u origin main
-```
-
-For subsequent pushes:
-
-```bash
-git add .
-git commit -m "feat: <your message>"
-git push
-```
+### Base path handling
+`vite.config.js` reads `VITE_BASE_PATH` from the environment. The CI sets this to `/<repo-name>/` so all asset paths and `BrowserRouter` routes resolve correctly under the Pages subpath. Local dev still uses `/`.
 
 ---
 
 ## What This POC Demonstrates
 
-The page itself is intentionally simple. The value is in everything **around** it — the pipeline that takes this code from `git push` to a live URL without manual steps.
-
-Hooking this up to your automation stack typically means:
-
-1. A CI job that runs `npm install` + `npm run build` on every push
-2. An artifact (the `dist/` folder) published to your hosting target (S3, Netlify, Vercel, GitHub Pages, etc.)
-3. A deployment step that promotes the artifact to the live environment
-4. Optional: smoke tests, lighthouse checks, or notifications on success/failure
+- Multi-page SPA with React Router
+- Global state management without Redux (Context API only)
+- External API integration with loading and error states
+- Responsive layout (4 → 3 → 2 → 1 column grids)
+- End-to-end automation: `git push` → live URL with no manual steps
 
 ---
 
 ## License
 
-Internal POC — no license attached. Adjust as appropriate for your organization.
+Internal POC — no license attached. Adjust as appropriate.
