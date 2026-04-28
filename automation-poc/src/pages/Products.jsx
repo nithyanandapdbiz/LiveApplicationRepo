@@ -30,18 +30,19 @@ export default function Products() {
       : products.filter((p) => p.category === activeCategory)
 
   return (
-    <div className="page">
-      <div className="page-header">
+    <div className="page" data-testid="products-page">
+      <div className="page-header" data-testid="products-header">
         <h1>All products</h1>
         <p className="page-subtitle">
           {filtered.length} {filtered.length === 1 ? 'item' : 'items'} available
         </p>
       </div>
 
-      <div className="filter-bar">
+      <div className="filter-bar" data-testid="filter-bar">
         <button
           className={`chip ${activeCategory === 'all' ? 'active' : ''}`}
           onClick={() => setActiveCategory('all')}
+          data-testid="filter-all"
         >
           All
         </button>
@@ -50,14 +51,15 @@ export default function Products() {
             key={cat}
             className={`chip ${activeCategory === cat ? 'active' : ''}`}
             onClick={() => setActiveCategory(cat)}
+            data-testid={`filter-${cat}`}
           >
             {cat}
           </button>
         ))}
       </div>
 
-      {loading && <div className="loading">Loading products…</div>}
-      {error && <div className="error">Failed to load: {error}</div>}
+      {loading && <div className="loading" data-testid="products-loading">Loading products…</div>}
+      {error && <div className="error" data-testid="products-error">Failed to load: {error}</div>}
 
       {!loading && !error && (
         <div className="grid grid-4">
