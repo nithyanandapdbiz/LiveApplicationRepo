@@ -1,59 +1,66 @@
-name: Build & Deploy to GitHub Pages
+# .github/workflows/aaf-dev-change.yml
+# Triggers the AAF Agentic QA Platform's dev-change reconciliation
+# on every push and PR. Advisory only — never blocks merge.
+name: Dev-Change Scan
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: [main, master, develop]
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
+  pull-requests: write
 
 jobs:
-  build:
-    name: Build
+  trigger-aaf:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: automation-poc
+    timeout-minutes: 5
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Determine SHA range
+        id: shas
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "base=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_OUTPUT"
+            echo "head=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=${{ github.event.before }}" >> "$GITHUB_OUTPUT"
+            echo "head=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Trigger AAF dev-change pipeline
+        id: trigger
+        run: |
+          response=$(curl -sS -X POST \
+            "${{ vars.AAF_PLATFORM_URL }}/api/dev-change/analyse" \
+            -H "Authorization: Bearer ${{ secrets.AAF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "baseSha":  "${{ steps.shas.outputs.base }}",
+              "headSha":  "${{ steps.shas.outputs.head }}",
+              "repo":     "${{ github.repository }}",
+              "prNumber": "${{ github.event.pull_request.number }}",
+              "branch":   "${{ github.ref_name }}",
+              "actor":    "${{ github.actor }}"
+            }')
+          echo "Response: $response"
+          job_id=$(echo "$response" | grep -o '"jobId":"[^"]*"' | cut -d'"' -f4)
+          echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR with tracking link
+        if: github.event_name == 'pull_request' && steps.trigger.outputs.job_id != ''
+        uses: actions/github-script@v7
         with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-        env:
-          VITE_BASE_PATH: /${{ github.event.repository.name }}/
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: automation-poc/dist
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          script: |
+            const jobId = '${{ steps.trigger.outputs.job_id }}';
+            const url = '${{ vars.AAF_PLATFORM_URL }}/api/dev-change/jobs/' + jobId;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🔍 **AAF Dev-Change scan triggered**\n\n` +
+                    `Job ID: \`${jobId}\`\n` +
+                    `Status: [View progress](${url})\n\n` +
+                    `Results will be posted as a follow-up comment when the run completes (~2-5 min).`
+            });
