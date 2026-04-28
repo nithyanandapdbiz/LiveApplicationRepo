@@ -1,22 +1,39 @@
-# .github/workflows/aaf-dev-change.yml
-# Triggers the AAF Agentic QA Platform's dev-change reconciliation
-# on every push and PR. Advisory only — never blocks merge.
-name: Dev-Change Scan
+# .github/workflows/ci.yml
+# Combined pipeline:
+#   - aaf-scan: triggers AAF Agentic QA Platform dev-change analysis (advisory, non-blocking)
+#               runs on PRs and pushes to main/master/develop
+#   - build:    builds the React app on push to main
+#   - deploy:   deploys built artifact to GitHub Pages
+
+name: CI - AAF Scan, Build & Deploy
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
   push:
     branches: [main, master, develop]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
   pull-requests: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
-  trigger-aaf:
+  # ============================================================
+  # Job 1: AAF Dev-Change Scan (advisory — runs on every push & PR)
+  # ============================================================
+  aaf-scan:
+    name: AAF Dev-Change Scan
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Continue pipeline even if AAF scan fails — it's advisory only
+    continue-on-error: true
     steps:
       - name: Determine SHA range
         id: shas
@@ -64,3 +81,53 @@ jobs:
                     `Status: [View progress](${url})\n\n` +
                     `Results will be posted as a follow-up comment when the run completes (~2-5 min).`
             });
+
+  # ============================================================
+  # Job 2: Build the React app
+  # Runs only on push to main (not PRs, not other branches)
+  # ============================================================
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+
+      - name: Add SPA fallback (404 -> index.html)
+        run: cp dist/index.html dist/404.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  # ============================================================
+  # Job 3: Deploy to GitHub Pages
+  # Runs only after build succeeds
+  # ============================================================
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
