@@ -11,7 +11,7 @@ export default function App() {
   const features = [
     {
       num: '01',
-      title: 'Continuous Integration',
+      title: 'Continuou Integration',
       desc: 'Every commit is automatically built, tested, and validated before reaching production.'
     },
     {
