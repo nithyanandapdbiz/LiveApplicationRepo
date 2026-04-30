@@ -22,7 +22,7 @@ export default function Home() {
         <div className="hero-content" data-testid="hero-content">
           <span className="hero-eyebrow" data-testid="hero-eyebrow">— New season · Spring 2026</span>
           <h1 className="hero-title" data-testid="hero-title">
-            Curated goods.
+            Curatedgoods.
             <br />
             <em>Delivered with care.</em>
           </h1>
