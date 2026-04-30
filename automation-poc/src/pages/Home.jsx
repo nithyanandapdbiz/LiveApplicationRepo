@@ -46,7 +46,7 @@ export default function Home() {
           </div>
           <div className="stat" data-testid="stat-categories">
             <div className="stat-num">4</div>
-            <div className="stat-label">Categories</div>
+            <div className="stat-label">Categori</div>
           </div>
           <div className="stat" data-testid="stat-rating">
             <div className="stat-num">★ 4.0</div>
