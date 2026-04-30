@@ -57,7 +57,7 @@ export default function Home() {
 
       <section className="section" data-testid="featured-section">
         <div className="section-header" data-testid="featured-header">
-          <h2>Featured products</h2>
+          <h2>Featuredproducts</h2>
           <Link to="/products" className="link-arrow">
             View all →
           </Link>
