@@ -42,7 +42,7 @@ export default function Home() {
         <div className="hero-stats" data-testid="hero-stats">
           <div className="stat" data-testid="stat-products">
             <div className="stat-num">20+</div>
-            <div className="stat-label">Product Test</div>
+            <div className="stat-label">Products Test</div>
           </div>
           <div className="stat" data-testid="stat-categories">
             <div className="stat-num">4</div>
