@@ -32,7 +32,7 @@ export default function Home() {
           </p>
           <div className="hero-cta" data-testid="hero-cta">
             <Link to="/products" className="btn btn-primary" data-testid="shop-catalog-btn">
-              ProductaCtalog →
+              Producta Catalog →
             </Link>
             <Link to="/contact" className="btn btn-ghost" data-testid="get-in-touch-btn">
               Get in touch
