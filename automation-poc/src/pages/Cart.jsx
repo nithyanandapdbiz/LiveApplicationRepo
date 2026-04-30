@@ -21,7 +21,7 @@ export default function Cart() {
   return (
     <div className="page" data-testid="cart-page">
       <div className="page-header" data-testid="cart-header">
-        <h1>Your cart</h1>
+        <h1>Yourcart</h1>
         <p className="page-subtitle">
           {items.length} {items.length === 1 ? 'item' : 'items'}
         </p>
