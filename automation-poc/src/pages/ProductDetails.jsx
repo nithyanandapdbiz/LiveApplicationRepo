@@ -55,7 +55,7 @@ export default function ProductDetails() {
 
           <p className="detail-desc">{product.description}</p>
 
-          <div className="detail-actions">
+          <div className="detae2-actions">
             <div className="qty-control">
               <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>−</button>
               <span>{quantity}</span>
