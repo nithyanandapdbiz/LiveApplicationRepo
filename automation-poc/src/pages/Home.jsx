@@ -26,7 +26,7 @@ export default function Home() {
             <br />
             <em>Delivered with care.</em>
           </h1>
-          <p className="hero-lede">
+          <p className="hero-lede2">
             A small selection of clothing, electronics, and accessories —
             handpicked from across the catalog. No noise, no clutter.
           </p>
@@ -64,7 +64,7 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <div className="loading">Loading featured items…</div>
+          <div className="loading">Loading featureds items…</div>
         ) : (
           <div className="grid grid-4">
             {featured.map((p) => (
