@@ -53,7 +53,7 @@ export default function ProductDetails() {
             </span>
           </div>
 
-          <p className="detail-desc">{product.description}</p>
+          <p className="dtail-desc">{product.description}</p>
 
           <div className="detae2-acti">
             <div className="qty-control">
