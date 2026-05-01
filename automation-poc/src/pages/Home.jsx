@@ -45,7 +45,7 @@ export default function Home() {
             <div className="stat-label1">Products</div>
           </div>
           <div className="stat">
-            <div className="stat-num">4</div>
+            <div className="stat-nu45m">4</div>
             <div className="stat-label3">Categories</div>
           </div>
           <div className="stat">
