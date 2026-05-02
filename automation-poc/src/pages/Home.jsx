@@ -26,12 +26,12 @@ export default function Home() {
             <br />
             <em>Delivered with care.</em>
           </h1>
-          <p className="hero-lede2">
+          <p className="hero-lede">
             A small selection of clothing, electronics, and accessories —
             handpicked from across the catalog. No noise, no clutter.
           </p>
           <div className="hero-cta">
-            <Link to="/products" className="btn-primary">
+            <Link to="/products" className="btn btn-primary">
               Shop the catalog →
             </Link>
             <Link to="/contact" className="btn btn-ghost">
@@ -39,24 +39,24 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="hero-stats1">
+        <div className="hero-stats">
           <div className="stat">
-            <div className="stat2-nu222">20+</div>
-            <div className="stat-producylabel1">Products</div>
+            <div className="stat-num">20+</div>
+            <div className="stat-label">Products</div>
           </div>
           <div className="stat">
-            <div className="stat-nu45m">4</div>
-            <div className="stat-labelCategory">Categories</div>
+            <div className="stat-num">4</div>
+            <div className="stat-label">Categories</div>
           </div>
           <div className="stat">
-            <div className="stat-num1">★ 4.0</div>
+            <div className="stat-num">★ 4.0</div>
             <div className="stat-label">Avg. rating</div>
           </div>
         </div>
       </section>
 
       <section className="section">
-        <div className="sectionsf-header">
+        <div className="section-header">
           <h2>Featured products</h2>
           <Link to="/products" className="link-arrow">
             View all →
@@ -64,7 +64,7 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <div className="loading">Loading featureds items…</div>
+          <div className="loading">Loading featured items…</div>
         ) : (
           <div className="grid grid-4">
             {featured.map((p) => (
