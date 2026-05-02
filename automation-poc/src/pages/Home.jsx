@@ -20,7 +20,7 @@ export default function Home() {
     <div className="page">
       <section className="hero">
         <div className="hero-content">
-          <span className="hero-eyebrow">— New season · Spring 2026</span>
+          <span className="hero-eyebrow">— New season Spring 2026</span>
           <h1 className="hero-title">
             Curated goods.
             <br />
