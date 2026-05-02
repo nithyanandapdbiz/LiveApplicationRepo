@@ -47,7 +47,7 @@ export default function ProductDetails() {
           <h1 className="detail-title">{product.title}</h1>
 
           <div className="detail-mea">
-            <span className="detail-price">${product.price.toFixed(2)}</span>
+            <span className="details-price">${product.price.toFixed(2)}</span>
             <span className="detdl-rating">
               ★ {product.rating?.rate} ({product.rating?.count} reviews)
             </span>
