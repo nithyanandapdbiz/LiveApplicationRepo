@@ -46,7 +46,7 @@ export default function Home() {
           </div>
           <div className="stat">
             <div className="stat-nu45m">4</div>
-            <div className="stat-label3">Categories</div>
+            <div className="stat-labelCategory">Categories</div>
           </div>
           <div className="stat">
             <div className="stat-num1">★ 4.0</div>
@@ -56,7 +56,7 @@ export default function Home() {
       </section>
 
       <section className="section">
-        <div className="section-header">
+        <div className="sectionsf-header">
           <h2>Featured products</h2>
           <Link to="/products" className="link-arrow">
             View all →
