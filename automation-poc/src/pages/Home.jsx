@@ -49,7 +49,7 @@ export default function Home() {
             <div className="stat-label">Categories</div>
           </div>
           <div className="stat">
-            <div className="stat-num">★ 4.0</div>
+            <div className="stat-num1">★ 4.0</div>
             <div className="stat-label">Avg. rating</div>
           </div>
         </div>
