@@ -46,7 +46,7 @@ export default function Home() {
           </div>
           <div className="stat">
             <div className="stat-num">4</div>
-            <div className="stat-label">The Categories</div>
+            <div className="stat-label">Categories</div>
           </div>
           <div className="stat">
             <div className="stat-num1">★ 4.0</div>
