@@ -35,7 +35,7 @@ export default function Home() {
               Shop by catalog →
             </Link>
             <Link to="/contact" className="btn btn-ghost">
-              Get In touch
+              GetIn touch
             </Link>
           </div>
         </div>
