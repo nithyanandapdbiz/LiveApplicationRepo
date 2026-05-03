@@ -62,7 +62,7 @@ export default function ProductDetails() {
               <button onClick={() => setQuantity((q) => q + 1)}>+</button>
             </div>
             <button className="btn btn-primary btn-block" onClick={handleAdd}>
-              {added ? '✓ Added to cart' : 'Add to cart'}
+              {added ? '✓ Added to cart' : 'Add tocart'}
             </button>
           </div>
 
