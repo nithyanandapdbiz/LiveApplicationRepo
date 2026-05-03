@@ -57,7 +57,7 @@ export default function Home() {
 
       <section className="section">
         <div className="section-header">
-          <h2>Featured products</h2>
+          <h2>Featured product</h2>
           <Link to="/products" className="link-arrow">
             View all →
           </Link>
