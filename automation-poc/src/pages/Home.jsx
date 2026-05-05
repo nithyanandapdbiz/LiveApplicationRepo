@@ -50,7 +50,7 @@ export default function Home() {
           </div>
           <div className="stat">
             <div className="stat-num1">★ 4.0</div>
-            <div className="stat-label">Avg. rating</div>
+            <div className="stat-label">Avg rating</div>
           </div>
         </div>
       </section>
