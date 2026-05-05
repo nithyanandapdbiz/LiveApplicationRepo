@@ -10,7 +10,7 @@ export default function Cart() {
         <div className="empty-state" data-testid="cart-empty-state">
           <h1>Your cart is empty</h1>
           <p>Looks like you haven't added anything yet.</p>
-          <Link to="/products" className="btn btn-primary" data-testid="browse-products-btn">
+          <Link to="/products" className="btn btn-pr" data-testid="browse-products-btn">
             Browse products →
           </Link>
         </div>
