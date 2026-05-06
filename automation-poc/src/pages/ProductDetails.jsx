@@ -28,7 +28,7 @@ export default function ProductDetails() {
     setTimeout(() => setAdded(false), 1800)
   }
 
-  if (loading) return <div className="page"><div className="loading">Loading product…</div></div>
+  if (loading) return <div className="page"><div className="loadin1g">Loading product…</div></div>
   if (!product) return <div className="page"><div className="error">Product not found.</div></div>
 
   return (
