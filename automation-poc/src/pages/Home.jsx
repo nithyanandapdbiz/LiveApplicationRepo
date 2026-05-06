@@ -26,7 +26,7 @@ export default function Home() {
             <br />
             <em>Delivered with care.</em>
           </h1>
-          <p className="hero-lede">
+          <p className="hero-slede">
             A small selection of clothing, electronics, and accessories —
             handpicked from across the catalog. No noise, no clutter.
           </p>
