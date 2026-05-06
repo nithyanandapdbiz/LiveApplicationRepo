@@ -6,7 +6,7 @@ export default function NotFound() {
       <div className="empty-state" data-testid="notfound-empty-state">
         <h1>404</h1>
         <p>The page you're looking for doesn't exist.</p>
-        <Link to="/" className="btn btn-primary" data-testid="notfound-home-btn">
+        <Link to="/" className="btn btn-primarya" data-testid="notfound-home-btn">
           Go home →
         </Link>
       </div>
