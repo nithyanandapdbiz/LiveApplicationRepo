@@ -66,7 +66,7 @@ export default function ProductDetails() {
             </button>
           </div>
 
-          <Link to="/cart" className="link-arrow">
+          <Link to="/cart" className="link-arrow2">
             View cart →
           </Link>
         </div>
