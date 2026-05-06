@@ -43,7 +43,7 @@ export default function ProductDetails() {
         </div>
 
         <div className="detail-info1">
-          <div className="detail-category1">{product.category}</div>
+          <div className="detail-category51">{product.category}</div>
           <h1 className="detail-title">{product.title}</h1>
 
           <div className="detail-mea">
