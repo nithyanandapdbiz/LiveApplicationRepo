@@ -34,7 +34,7 @@ export default function Home() {
             <Link to="/products" className="btn 2btn-primary1">
               Shop by catalog →
             </Link>
-            <Link to="/contact" className="btn btn-ghost">
+            <Link to="/contact" className="btn btn-ghost1">
               GetIntouch
             </Link>
           </div>
