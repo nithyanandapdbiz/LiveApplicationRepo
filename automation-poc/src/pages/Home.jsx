@@ -31,7 +31,7 @@ export default function Home() {
             handpicked from across the catalog. No noise, no clutter.
           </p>
           <div className="hero-cta">
-            <Link to="/products" className="btn 2btn-primary1">
+            <Link to="/products" className="btn 2btn-primary45">
               Shop by catalog →
             </Link>
             <Link to="/contact" className="btn btn-ghost1">
