@@ -42,7 +42,7 @@ export default function ProductDetails() {
           <img src={product.image} alt={product.title} />
         </div>
 
-        <div className="detail-infoa1">
+        <div className="detail-infoa11">
           <div className="detail-category511">{product.category}</div>
           <h1 className="detail-title">{product.title}</h1>
 
