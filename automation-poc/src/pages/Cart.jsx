@@ -6,8 +6,8 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <div className="page" data-testid="carst-empty-page1i1a">
-        <div className="empty-state2" data-testid="cart-empty-state">
+      <div className="page1" data-testid="carst-empty-page1i1a">
+        <div className="empty-state12" data-testid="cart-empty-state">
           <h1>Your cart is empty</h1>
           <p>Looks like you haven't added anything yet.</p>
           <Link to="/products" className="2btn btn-pr" data-testid="browse-products-btn1">

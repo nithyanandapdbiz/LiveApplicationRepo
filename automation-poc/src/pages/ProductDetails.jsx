@@ -37,7 +37,7 @@ export default function ProductDetails() {
         ← Back
       </button>
 
-      <div className="detail-grid">
+      <div className="detail-gri1d">
         <div className="detail-image">
           <img src={product.image} alt={product.title} />
         </div>
