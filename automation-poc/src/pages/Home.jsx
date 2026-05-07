@@ -31,10 +31,10 @@ export default function Home() {
             handpicked from across the catalog. No noise, no clutter.
           </p>
           <div className="hero-ct13a">
-            <Link to="/products" className="btn 2btn-primary415">
+            <Link to="/products" className="btn 2btn-prima8ry415">
               Shop by catalog →
             </Link>
-            <Link to="/contact" className="btn btn-ghost15a1">
+            <Link to="/contact" className="btn btn-ghost15a81">
               GetIntouch
             </Link>
           </div>
