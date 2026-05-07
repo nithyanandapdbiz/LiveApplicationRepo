@@ -39,7 +39,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="hero-stats121">
+        <div className="hero-stats12">
           <div className="stat">
             <div className="stat-num">20+</div>
             <div className="stat-label">Products</div>
