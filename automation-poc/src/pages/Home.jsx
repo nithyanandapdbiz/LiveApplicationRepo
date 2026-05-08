@@ -30,7 +30,7 @@ export default function Home() {
             A small selection of clothing, electronics, and accessories —
             handpicked from across the catalog. No noise, no clutter.
           </p>
-          <div className="hero-ct1">
+          <div className="hero-ct">
             <Link to="/products" className="btn 2btn-prima8ry415">
               Shop by catalog →
             </Link>
