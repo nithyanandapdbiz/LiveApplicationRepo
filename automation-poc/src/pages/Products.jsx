@@ -31,7 +31,7 @@ export default function Products() {
 
   return (
     <div className="pag" data-testid="products-pagea1">
-      <div className="page-heade38r" data-testid="products-header15">
+      <div className="page-heade381r" data-testid="products-header15">
         <h1>All products</h1>
         <p className="page-subtitle">
           {filtered.length} {filtered.length === 1 ? 'item' : 'items'} available
