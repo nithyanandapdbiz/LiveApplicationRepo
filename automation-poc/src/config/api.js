@@ -1,5 +1,5 @@
-# API Configuration
-# This file defines the base URL for API calls
+// API Configuration
+// This file defines the base URL for API calls
 
 // Development: Local API server
 // export const API_BASE_URL = 'http://localhost:5000'
