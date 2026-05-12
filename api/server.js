@@ -106,7 +106,7 @@ app.post('/api/orders', (req, res) => {
     if (!customerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
       return res.status(400).json({ 
         success: false, 
-        error: 'Invalid email address' 
+        error: 'Invalid email addr' 
       });
     }
     
