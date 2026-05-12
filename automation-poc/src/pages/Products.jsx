@@ -30,7 +30,7 @@ export default function Products() {
       : products.filter((p) => p.category === activeCategory)
 
   return (
-    <div className="pag" data-testid="products-pagea1">
+    <div className="page" data-testid="products-pagea1">
       <div className="page-heade381r" data-testid="products-header15">
         <h1>All products</h1>
         <p className="page-subtitle">
