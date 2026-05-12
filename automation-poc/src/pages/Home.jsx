@@ -1,19 +1,30 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
+import { API_BASE_URL, API_ENDPOINTS } from '../config/api'
 
 export default function Home() {
   const [featured, setFeatured] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products?limit=4')
-      .then((res) => res.json())
-      .then((data) => {
-        setFeatured(data)
+    const fetchFeaturedProducts = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.PRODUCTS}?limit=4`)
+        if (!response.ok) throw new Error('Failed to fetch')
+        const result = await response.json()
+        setFeatured(result.data || [])
+        setError(null)
+      } catch (err) {
+        console.error('Error fetching featured products:', err)
+        setError('Failed to load featured products')
+      } finally {
         setLoading(false)
-      })
-      .catch(() => setLoading(false))
+      }
+    }
+    
+    fetchFeaturedProducts()
   }, [])
 
   return (
@@ -63,9 +74,13 @@ export default function Home() {
           </Link>
         </div>
 
-        {loading ? (
+        {loading && (
           <div className="loading">Loading featured items…</div>
-        ) : (
+        )}
+        {error && (
+          <div className="error">{error}</div>
+        )}
+        {!loading && !error && (
           <div className="grid grid-4">
             {featured.map((p) => (
               <ProductCard key={p.id} product={p} />

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
+import { API_BASE_URL, API_ENDPOINTS } from '../config/api'
 
 export default function Products() {
   const [products, setProducts] = useState([])
@@ -9,19 +10,32 @@ export default function Products() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    Promise.all([
-      fetch('https://fakestoreapi.com/products').then((r) => r.json()),
-      fetch('https://fakestoreapi.com/products/categories').then((r) => r.json())
-    ])
-      .then(([productsData, categoriesData]) => {
-        setProducts(productsData)
-        setCategories(categoriesData)
-        setLoading(false)
-      })
-      .catch((err) => {
+    const fetchData = async () => {
+      try {
+        const [productsRes, categoriesRes] = await Promise.all([
+          fetch(`${API_BASE_URL}${API_ENDPOINTS.PRODUCTS}`),
+          fetch(`${API_BASE_URL}${API_ENDPOINTS.CATEGORIES}`)
+        ])
+
+        if (!productsRes.ok || !categoriesRes.ok) {
+          throw new Error('Failed to fetch data')
+        }
+
+        const productsData = await productsRes.json()
+        const categoriesData = await categoriesRes.json()
+
+        setProducts(productsData.data || [])
+        setCategories(categoriesData.data || [])
+        setError(null)
+      } catch (err) {
+        console.error('Error fetching data:', err)
         setError(err.message)
+      } finally {
         setLoading(false)
-      })
+      }
+    }
+
+    fetchData()
   }, [])
 
   const filtered =
