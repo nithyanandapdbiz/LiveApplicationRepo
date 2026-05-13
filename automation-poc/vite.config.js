@@ -3,11 +3,8 @@ import react from '@vitejs/plugin-react'
 import fs from 'node:fs'
 import path from 'node:path'
 
-// Generates a  file in dist/ for Netlify / Cloudflare Pages.
+// Generates a _headers file in dist/ for Netlify / Cloudflare Pages.
 // GitHub Pages ignores this file but the headers are pre-wired for migration.
-// These mirror the meta-tag subset already in index.html and add the server-level
-// headers (X-Frame-Options, X-Content-Type-Options, Permissions-Policy) that
-// cannot be delivered via HTML on any platform.
 function headersPlugin() {
   return {
     name: 'generate-_headers',
@@ -24,16 +21,17 @@ function headersPlugin() {
         "frame-ancestors 'none'",
       ].join('; ')
 
-      const content = [
+      const lines = [
         '/*',
         '  Content-Security-Policy: ' + policy,
         '  X-Frame-Options: DENY',
         '  X-Content-Type-Options: nosniff',
         '  Referrer-Policy: strict-origin-when-cross-origin',
-        "  Permissions-Policy: geolocation=(), microphone=(), camera=()",
+        '  Permissions-Policy: geolocation=(), microphone=(), camera=()',
         '  Strict-Transport-Security: max-age=31536000; includeSubDomains',
         '',
-      ].join('
+      ]
+      const content = lines.join('
 ')
 
       const outDir = path.resolve('dist')
