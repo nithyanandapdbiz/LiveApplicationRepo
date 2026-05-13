@@ -21,18 +21,7 @@ function headersPlugin() {
         "frame-ancestors 'none'",
       ].join('; ')
 
-      const lines = [
-        '/*',
-        '  Content-Security-Policy: ' + policy,
-        '  X-Frame-Options: DENY',
-        '  X-Content-Type-Options: nosniff',
-        '  Referrer-Policy: strict-origin-when-cross-origin',
-        '  Permissions-Policy: geolocation=(), microphone=(), camera=()',
-        '  Strict-Transport-Security: max-age=31536000; includeSubDomains',
-        '',
-      ]
-      const content = lines.join('
-')
+      const content = `/*\n  Content-Security-Policy: ${policy}\n  X-Frame-Options: DENY\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: geolocation=(), microphone=(), camera=()\n  Strict-Transport-Security: max-age=31536000; includeSubDomains\n`
 
       const outDir = path.resolve('dist')
       if (fs.existsSync(outDir)) {
