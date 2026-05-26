@@ -9,6 +9,7 @@ import {
   createOrder,
   getOrderById,
   updateOrderStatus,
+  deleteOrder,
   orders
 } from './data.js';
 
@@ -69,12 +70,23 @@ app.use((req, res, next) => {
   next();
 });
 
+// Purge stale rate-limit entries every 5 minutes to prevent unbounded growth
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateLimitMap.entries()) {
+    if (now - entry.windowStart > RATE_WINDOW_MS) rateLimitMap.delete(ip);
+  }
+}, 5 * 60 * 1000).unref();
+
 // Middleware
 app.use(express.json({ limit: '10kb' }));
 
-// Logging middleware
+// Logging middleware — method, path, status, duration
 app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  const start = Date.now();
+  res.on('finish', () => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} ${res.statusCode} ${Date.now() - start}ms`);
+  });
   next();
 });
 
@@ -85,19 +97,32 @@ app.use((req, res, next) => {
  * Get all products with optional filtering
  * Query params: ?category=electronics&limit=10&skip=0
  */
+const VALID_SORTS = ['price', 'rating', 'title'];
+
 app.get('/api/products', (req, res) => {
   try {
-    const { category, search, sort, order = 'asc', limit = 20, skip = 0 } = req.query;
+    const { category, search, sort, order = 'asc', minPrice, maxPrice, inStock, limit = 20, skip = 0 } = req.query;
+
+    if (sort && !VALID_SORTS.includes(sort)) {
+      return res.status(400).json({
+        success: false,
+        error: `Invalid sort field. Must be one of: ${VALID_SORTS.join(', ')}`
+      });
+    }
 
     let result = category ? getProductsByCategory(category) : [...products];
 
     if (search) {
-      const term = search.toLowerCase();
+      const term = search.slice(0, 100).toLowerCase();
       result = result.filter(p =>
         p.title.toLowerCase().includes(term) ||
         p.description.toLowerCase().includes(term)
       );
     }
+
+    if (minPrice !== undefined) result = result.filter(p => p.price >= parseFloat(minPrice));
+    if (maxPrice !== undefined) result = result.filter(p => p.price <= parseFloat(maxPrice));
+    if (inStock === 'true') result = result.filter(p => p.stock > 0);
 
     if (sort) {
       const dir = order === 'desc' ? -1 : 1;
@@ -110,9 +135,22 @@ app.get('/api/products', (req, res) => {
     }
 
     const total = result.length;
-    result = result.slice(parseInt(skip), parseInt(skip) + parseInt(limit));
+    const limitN = parseInt(limit);
+    const skipN = parseInt(skip);
+    result = result.slice(skipN, skipN + limitN);
 
-    res.json({ success: true, data: result, total });
+    res.json({
+      success: true,
+      data: result,
+      total,
+      pagination: {
+        page: Math.floor(skipN / limitN) + 1,
+        pages: Math.ceil(total / limitN),
+        limit: limitN,
+        hasNext: skipN + limitN < total,
+        hasPrev: skipN > 0
+      }
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -230,6 +268,24 @@ app.patch('/api/orders/:id', (req, res) => {
   }
 });
 
+// ============ ORDER DELETE ============
+
+/**
+ * DELETE /api/orders/:id
+ * Remove an order by ID
+ */
+app.delete('/api/orders/:id', (req, res) => {
+  try {
+    const removed = deleteOrder(req.params.id);
+    if (!removed) {
+      return res.status(404).json({ success: false, error: 'Order not found' });
+    }
+    res.json({ success: true, data: removed, message: 'Order deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // ============ ORDERS RETRIEVAL ============
 
 /**
@@ -238,7 +294,19 @@ app.patch('/api/orders/:id', (req, res) => {
  */
 app.get('/api/orders', (req, res) => {
   try {
-    res.json({ success: true, data: orders, total: orders.length });
+    const { status, email } = req.query;
+    let result = [...orders];
+    if (status) {
+      if (!VALID_STATUSES.includes(status)) {
+        return res.status(400).json({
+          success: false,
+          error: `Invalid status filter. Must be one of: ${VALID_STATUSES.join(', ')}`
+        });
+      }
+      result = result.filter(o => o.status === status);
+    }
+    if (email) result = result.filter(o => o.customerEmail.toLowerCase() === email.toLowerCase());
+    res.json({ success: true, data: result, total: result.length });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -267,12 +335,22 @@ app.get('/api/orders/:id', (req, res) => {
  * Health check endpoint
  */
 app.get('/api/health', (req, res) => {
+  const mem = process.memoryUsage();
   res.json({
     success: true,
     status: 'API is running',
     timestamp: new Date().toISOString(),
-    productsCount: products.length,
-    categoriesCount: categories.length
+    environment: process.env.NODE_ENV || 'development',
+    uptime: Math.floor(process.uptime()),
+    stats: {
+      products: products.length,
+      categories: categories.length,
+      orders: orders.length
+    },
+    memory: {
+      heapUsed: `${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
+      heapTotal: `${Math.round(mem.heapTotal / 1024 / 1024)}MB`
+    }
   });
 });
 
@@ -317,6 +395,7 @@ app.listen(PORT, () => {
 ║  GET    /api/orders                      ║
 ║  GET    /api/orders/:id                  ║
 ║  PATCH  /api/orders/:id                  ║
+║  DELETE /api/orders/:id                  ║
 ╚══════════════════════════════════════════╝
   `);
 });

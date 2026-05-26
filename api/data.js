@@ -196,3 +196,10 @@ export function updateOrderStatus(id, status) {
   order.updatedAt = new Date().toISOString();
   return order;
 }
+
+export function deleteOrder(id) {
+  const index = orders.findIndex(o => o.id === id);
+  if (index === -1) return null;
+  const [removed] = orders.splice(index, 1);
+  return removed;
+}
