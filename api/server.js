@@ -6,7 +6,10 @@ import {
   categories,
   getProductById,
   getProductsByCategory,
-  createOrder
+  createOrder,
+  getOrderById,
+  updateOrderStatus,
+  orders
 } from './data.js';
 
 const app = express();
@@ -43,8 +46,31 @@ app.use((_req, res, next) => {
   next();
 });
 
+// Rate limiting — 100 requests per IP per minute
+const rateLimitMap = new Map();
+const RATE_LIMIT = 100;
+const RATE_WINDOW_MS = 60 * 1000;
+
+app.use((req, res, next) => {
+  const ip = req.ip;
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now - entry.windowStart > RATE_WINDOW_MS) {
+    rateLimitMap.set(ip, { count: 1, windowStart: now });
+    return next();
+  }
+
+  if (entry.count >= RATE_LIMIT) {
+    return res.status(429).json({ success: false, error: 'Too many requests, please try again later.' });
+  }
+
+  entry.count++;
+  next();
+});
+
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -61,20 +87,32 @@ app.use((req, res, next) => {
  */
 app.get('/api/products', (req, res) => {
   try {
-    const { category, limit = 20, skip = 0 } = req.query;
+    const { category, search, sort, order = 'asc', limit = 20, skip = 0 } = req.query;
 
-    let result = category
-      ? getProductsByCategory(category)
-      : products;
+    let result = category ? getProductsByCategory(category) : [...products];
 
-    // Pagination
+    if (search) {
+      const term = search.toLowerCase();
+      result = result.filter(p =>
+        p.title.toLowerCase().includes(term) ||
+        p.description.toLowerCase().includes(term)
+      );
+    }
+
+    if (sort) {
+      const dir = order === 'desc' ? -1 : 1;
+      result.sort((a, b) => {
+        if (sort === 'price') return (a.price - b.price) * dir;
+        if (sort === 'rating') return (a.rating.rate - b.rating.rate) * dir;
+        if (sort === 'title') return a.title.localeCompare(b.title) * dir;
+        return 0;
+      });
+    }
+
+    const total = result.length;
     result = result.slice(parseInt(skip), parseInt(skip) + parseInt(limit));
 
-    res.json({
-      success: true,
-      data: result,
-      total: products.length
-    });
+    res.json({ success: true, data: result, total });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -140,6 +178,13 @@ app.post('/api/orders', (req, res) => {
       });
     }
 
+    if (total === undefined || typeof total !== 'number' || total <= 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid total: must be a positive number'
+      });
+    }
+
     const order = createOrder({
       items,
       total,
@@ -152,6 +197,64 @@ app.post('/api/orders', (req, res) => {
       data: order,
       message: 'Order created successfully'
     });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// ============ ORDER STATUS UPDATE ============
+
+const VALID_STATUSES = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+
+/**
+ * PATCH /api/orders/:id
+ * Update order status
+ * Body: { status: string }
+ */
+app.patch('/api/orders/:id', (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!status || !VALID_STATUSES.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        error: `Invalid status. Must be one of: ${VALID_STATUSES.join(', ')}`
+      });
+    }
+    const order = updateOrderStatus(req.params.id, status);
+    if (!order) {
+      return res.status(404).json({ success: false, error: 'Order not found' });
+    }
+    res.json({ success: true, data: order });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// ============ ORDERS RETRIEVAL ============
+
+/**
+ * GET /api/orders
+ * List all orders
+ */
+app.get('/api/orders', (req, res) => {
+  try {
+    res.json({ success: true, data: orders, total: orders.length });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
+ * GET /api/orders/:id
+ * Get a single order by ID
+ */
+app.get('/api/orders/:id', (req, res) => {
+  try {
+    const order = getOrderById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ success: false, error: 'Order not found' });
+    }
+    res.json({ success: true, data: order });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -198,18 +301,22 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`
-╔════════════════════════════════════╗
-║    E-commerce API Server           ║
-╠════════════════════════════════════╣
-║  Server running on port ${PORT}        ║
-║  http://localhost:${PORT}              ║
-║                                    ║
-║  Available endpoints:              ║
-║  GET  /api/health                  ║
-║  GET  /api/products                ║
-║  GET  /api/products/:id            ║
-║  GET  /api/categories              ║
-║  POST /api/orders                  ║
-╚════════════════════════════════════╝
+╔══════════════════════════════════════════╗
+║       E-commerce API Server              ║
+╠══════════════════════════════════════════╣
+║  Server running on port ${PORT}              ║
+║  http://localhost:${PORT}                    ║
+║                                          ║
+║  Available endpoints:                    ║
+║  GET    /api/health                      ║
+║  GET    /api/products                    ║
+║  GET    /api/products?search=&sort=      ║
+║  GET    /api/products/:id                ║
+║  GET    /api/categories                  ║
+║  POST   /api/orders                      ║
+║  GET    /api/orders                      ║
+║  GET    /api/orders/:id                  ║
+║  PATCH  /api/orders/:id                  ║
+╚══════════════════════════════════════════╝
   `);
 });
