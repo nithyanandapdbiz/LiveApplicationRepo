@@ -15,9 +15,9 @@ export default function Contact() {
 
   return (
     <div className="page" data-testid="contact-page1">
-      <div className="pageq-header3" data-testid="contact-header1a115">
+      <div className="page-header" data-testid="contact-header">
         <h1>Get in touch</h1>
-        <p className="page-subtitle1">
+        <p className="page-subtitle">
           Have a question, suggestion, or just want to say hello? We'd love to hear from you.
         </p>
       </div>

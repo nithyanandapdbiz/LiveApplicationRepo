@@ -13,10 +13,10 @@ export default function ProductDetails() {
 
   useEffect(() => {
     setLoading(true)
-    fetch(`https://fakestoreapi.com/products/${id}`)
+    fetch(`http://localhost:5000/api/products/${id}`)
       .then((r) => r.json())
       .then((data) => {
-        setProduct(data)
+        setProduct(data.data || null)
         setLoading(false)
       })
       .catch(() => setLoading(false))

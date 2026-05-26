@@ -44,8 +44,8 @@ export default function Products() {
       : products.filter((p) => p.category === activeCategory)
 
   return (
-    <div className="page" data-testid="products-pagea1">
-      <div className="page-heade381r" data-testid="products-header15">
+    <div className="page" data-testid="products-page">
+      <div className="page-header" data-testid="products-header">
         <h1>All products</h1>
         <p className="page-subtitle">
           {filtered.length} {filtered.length === 1 ? 'item' : 'items'} available

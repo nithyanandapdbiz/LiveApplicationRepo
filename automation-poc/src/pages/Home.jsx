@@ -31,26 +31,26 @@ export default function Home() {
     <div className="page">
       <section className="hero">
         <div className="hero-content">
-          <span className="hero-eyebrow">— New season Spr 2026</span>
+          <span className="hero-eyebrow">— New season · Spring 2026</span>
           <h1 className="hero-title">
             Curated goods.
             <br />
             <em>Delivered with care.</em>
           </h1>
-          <p className="hero-slede">
+          <p className="hero-lede">
             A small selection of clothing, electronics, and accessories —
             handpicked from across the catalog. No noise, no clutter.
           </p>
-          <div className="hero-ct">
-            <Link to="/products" className="btn 2btn-prima8ry415">
-              Shop by catalog →
+          <div className="hero-cta">
+            <Link to="/products" className="btn btn-primary">
+              Shop the catalog →
             </Link>
-            <Link to="/contact" className="btn btn-ghost15a81">
-              GetIntouch
+            <Link to="/contact" className="btn btn-ghost">
+              Get in touch
             </Link>
           </div>
         </div>
-        <div className="hero-stats12">
+        <div className="hero-stats">
           <div className="stat">
             <div className="stat-num">20+</div>
             <div className="stat-label">Products</div>
@@ -60,15 +60,15 @@ export default function Home() {
             <div className="stat-label">Categories</div>
           </div>
           <div className="stat">
-            <div className="stat-num1">★ 4.0</div>
-            <div className="stat-label">Avg rating</div>
+            <div className="stat-num">★ 4.0</div>
+            <div className="stat-label">Avg. rating</div>
           </div>
         </div>
       </section>
 
       <section className="section">
-        <div className="section-heade1r">
-          <h2>Featured product</h2>
+        <div className="section-header">
+          <h2>Featured products</h2>
           <Link to="/products" className="link-arrow">
             View all →
           </Link>

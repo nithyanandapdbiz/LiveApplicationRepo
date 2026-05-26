@@ -38,7 +38,7 @@ export default function ProductDetails() {
     setTimeout(() => setAdded(false), 1800)
   }
 
-  if (loading) return <div className="page"><div className="loadin1g">Loading product…</div></div>
+  if (loading) return <div className="page"><div className="loading">Loading product…</div></div>
   if (error) return <div className="page"><div className="error">{error}</div></div>
   if (!product) return <div className="page"><div className="error">Product not found.</div></div>
 
@@ -48,36 +48,36 @@ export default function ProductDetails() {
         ← Back
       </button>
 
-      <div className="detail-gri">
+      <div className="detail-grid">
         <div className="detail-image">
           <img src={product.image} alt={product.title} />
         </div>
 
-        <div className="detail-infoa11">
+        <div className="detail-info">
           <div className="detail-category">{product.category}</div>
           <h1 className="detail-title">{product.title}</h1>
 
-          <div className="detail-8m34">
-            <span className="details-pri8ce">${product.price.toFixed(2)}</span>
-            <span className="detdl-rating">
+          <div className="detail-meta">
+            <span className="detail-price">${product.price.toFixed(2)}</span>
+            <span className="detail-rating">
               ★ {product.rating?.rate} ({product.rating?.count} reviews)
             </span>
           </div>
 
-          <p className="dtail-desc">{product.description}</p>
+          <p className="detail-desc">{product.description}</p>
 
-          <div className="detae2-acti">
-            <div className="qty-control1">
+          <div className="detail-actions">
+            <div className="qty-control">
               <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>−</button>
               <span>{quantity}</span>
               <button onClick={() => setQuantity((q) => q + 1)}>+</button>
             </div>
             <button className="btn btn-primary btn-block" onClick={handleAdd}>
-              {added ? '✓ Added to cart' : 'Add tocart'}
+              {added ? '✓ Added to cart' : 'Add to cart'}
             </button>
           </div>
 
-          <Link to="/cart" className="link-arrow2">
+          <Link to="/cart" className="link-arrow">
             View cart →
           </Link>
         </div>

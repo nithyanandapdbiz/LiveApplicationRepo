@@ -10,12 +10,12 @@ export default function Products() {
 
   useEffect(() => {
     Promise.all([
-      fetch('https://fakestoreapi.com/products').then((r) => r.json()),
-      fetch('https://fakestoreapi.com/products/categories').then((r) => r.json())
+      fetch('http://localhost:5000/api/products').then((r) => r.json()),
+      fetch('http://localhost:5000/api/categories').then((r) => r.json())
     ])
       .then(([productsData, categoriesData]) => {
-        setProducts(productsData)
-        setCategories(categoriesData)
+        setProducts(productsData.data || [])
+        setCategories(categoriesData.data || [])
         setLoading(false)
       })
       .catch((err) => {

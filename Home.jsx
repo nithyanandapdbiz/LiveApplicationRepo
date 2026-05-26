@@ -7,10 +7,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products?limit=4')
+    fetch('http://localhost:5000/api/products?limit=4')
       .then((res) => res.json())
       .then((data) => {
-        setFeatured(data)
+        setFeatured(data.data || [])
         setLoading(false)
       })
       .catch(() => setLoading(false))
