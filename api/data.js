@@ -1,4 +1,7 @@
 // Mock product database
+// Images use placehold.co with category colours so title always matches the image.
+// Colour key: electronics=#0f172a  clothing=#4a1942  accessories=#1c3a4a  home&#38;kitchen=#3a2410
+
 export const products = [
   {
     id: 1,
@@ -6,7 +9,7 @@ export const products = [
     price: 129.99,
     description: "High-quality wireless headphones with active noise cancellation, 30-hour battery life, and premium sound quality.",
     category: "electronics",
-    image: "https://picsum.photos/seed/headphones/300/300",
+    image: "https://placehold.co/300x300/0f172a/ffffff?text=Wireless%0AHeadphones",
     rating: { rate: 4.8, count: 542 },
     stock: 23
   },
@@ -16,7 +19,7 @@ export const products = [
     price: 29.99,
     description: "Comfortable, breathable organic cotton t-shirt available in multiple colors. Perfect for casual wear.",
     category: "clothing",
-    image: "https://picsum.photos/seed/tshirt/300/300",
+    image: "https://placehold.co/300x300/4a1942/ffffff?text=Cotton%0AT-Shirt",
     rating: { rate: 4.5, count: 289 },
     stock: 150
   },
@@ -26,7 +29,7 @@ export const products = [
     price: 34.99,
     description: "Double-walled insulated water bottle keeps drinks cold for 24 hours or hot for 12 hours. 1L capacity.",
     category: "accessories",
-    image: "https://picsum.photos/seed/waterbottle/300/300",
+    image: "https://placehold.co/300x300/1c3a4a/ffffff?text=Water%0ABottle",
     rating: { rate: 4.6, count: 1205 },
     stock: 87
   },
@@ -36,7 +39,7 @@ export const products = [
     price: 49.99,
     description: "Ergonomic aluminum laptop stand with adjustable height and angle. Compatible with all laptops.",
     category: "electronics",
-    image: "https://picsum.photos/seed/laptopstand/300/300",
+    image: "https://placehold.co/300x300/0f172a/ffffff?text=Laptop%0AStand",
     rating: { rate: 4.7, count: 876 },
     stock: 45
   },
@@ -46,7 +49,7 @@ export const products = [
     price: 89.99,
     description: "UV protection sunglasses with eco-friendly bamboo frames. Includes case and cleaning cloth.",
     category: "accessories",
-    image: "https://picsum.photos/seed/sunglasses/300/300",
+    image: "https://placehold.co/300x300/1c3a4a/ffffff?text=Bamboo%0ASunglasses",
     rating: { rate: 4.4, count: 445 },
     stock: 62
   },
@@ -56,7 +59,7 @@ export const products = [
     price: 59.99,
     description: "Classic blue slim fit jeans made from premium denim. Comfortable and durable.",
     category: "clothing",
-    image: "https://picsum.photos/seed/jeans/300/300",
+    image: "https://placehold.co/300x300/4a1942/ffffff?text=Slim+Fit%0AJeans",
     rating: { rate: 4.3, count: 678 },
     stock: 200
   },
@@ -66,7 +69,7 @@ export const products = [
     price: 79.99,
     description: "Multi-port USB-C hub with 4K HDMI, USB 3.0, SD card reader, and USB-C PD charging.",
     category: "electronics",
-    image: "https://picsum.photos/seed/usbhub/300/300",
+    image: "https://placehold.co/300x300/0f172a/ffffff?text=4K%0AUSB-C+Hub",
     rating: { rate: 4.6, count: 523 },
     stock: 38
   },
@@ -76,7 +79,7 @@ export const products = [
     price: 24.99,
     description: "Premium leather phone case with card slots. Provides excellent protection and style.",
     category: "accessories",
-    image: "https://picsum.photos/seed/phonecase/300/300",
+    image: "https://placehold.co/300x300/1c3a4a/ffffff?text=Leather%0APhone+Case",
     rating: { rate: 4.5, count: 892 },
     stock: 110
   },
@@ -86,7 +89,7 @@ export const products = [
     price: 79.99,
     description: "Cozy wool sweater perfect for cold weather. Machine washable and available in multiple sizes.",
     category: "clothing",
-    image: "https://picsum.photos/seed/woolsweater/300/300",
+    image: "https://placehold.co/300x300/4a1942/ffffff?text=Wool%0ASweater",
     rating: { rate: 4.7, count: 334 },
     stock: 75
   },
@@ -96,7 +99,7 @@ export const products = [
     price: 149.99,
     description: "Premium mechanical gaming keyboard with RGB backlighting and customizable switches.",
     category: "electronics",
-    image: "https://picsum.photos/seed/keyboard/300/300",
+    image: "https://placehold.co/300x300/0f172a/ffffff?text=Mechanical%0AKeyboard",
     rating: { rate: 4.8, count: 1456 },
     stock: 30
   },
@@ -106,7 +109,7 @@ export const products = [
     price: 89.99,
     description: "Sleek 25L backpack with waterproof material and ergonomic design for daily use.",
     category: "accessories",
-    image: "https://picsum.photos/seed/backpack/300/300",
+    image: "https://placehold.co/300x300/1c3a4a/ffffff?text=Minimalist%0ABackpack",
     rating: { rate: 4.6, count: 567 },
     stock: 54
   },
@@ -116,7 +119,7 @@ export const products = [
     price: 69.99,
     description: "Lightweight linen dress perfect for summer. Breathable, comfortable, and stylish.",
     category: "clothing",
-    image: "https://picsum.photos/seed/linendress/300/300",
+    image: "https://placehold.co/300x300/4a1942/ffffff?text=Linen%0ADress",
     rating: { rate: 4.4, count: 289 },
     stock: 90
   },
@@ -126,7 +129,7 @@ export const products = [
     price: 199.99,
     description: "Feature-packed smart watch with heart rate monitor, GPS, sleep tracking, and 7-day battery life.",
     category: "electronics",
-    image: "https://picsum.photos/seed/smartwatch/300/300",
+    image: "https://placehold.co/300x300/0f172a/ffffff?text=Smart%0AWatch",
     rating: { rate: 4.7, count: 983 },
     stock: 41
   },
@@ -136,7 +139,7 @@ export const products = [
     price: 44.99,
     description: "Non-slip, eco-friendly yoga mat with alignment lines. 6mm thick for joint support. Includes carry strap.",
     category: "accessories",
-    image: "https://picsum.photos/seed/yogamat/300/300",
+    image: "https://placehold.co/300x300/1c3a4a/ffffff?text=Yoga%0AMat",
     rating: { rate: 4.5, count: 712 },
     stock: 130
   },
@@ -146,7 +149,7 @@ export const products = [
     price: 39.99,
     description: "Elegant glass pour-over coffee maker with reusable stainless steel filter. Brews up to 600ml.",
     category: "home & kitchen",
-    image: "https://picsum.photos/seed/coffeemaker/300/300",
+    image: "https://placehold.co/300x300/3a2410/ffffff?text=Coffee%0AMaker",
     rating: { rate: 4.6, count: 421 },
     stock: 66
   },
@@ -156,7 +159,7 @@ export const products = [
     price: 54.99,
     description: "Adjustable LED desk lamp with 5 color temperatures, USB charging port, and touch dimmer. Eye-care certified.",
     category: "home & kitchen",
-    image: "https://picsum.photos/seed/desklamp/300/300",
+    image: "https://placehold.co/300x300/3a2410/ffffff?text=LED%0ADesk+Lamp",
     rating: { rate: 4.8, count: 634 },
     stock: 48
   }
