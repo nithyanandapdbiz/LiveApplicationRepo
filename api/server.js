@@ -27,12 +27,17 @@ const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || '')
   .filter(Boolean);
 
 const corsOptions = {
-  origin: [
-    'https://nithyanandapdbiz.github.io',
-    'http://localhost:3000',
-    'http://localhost:5173',
-    ...ALLOWED_ORIGINS,
-  ],
+  origin: (origin, callback) => {
+    const allowed = [
+      'https://nithyanandapdbiz.github.io',
+      ...ALLOWED_ORIGINS,
+    ];
+    if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin) || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -368,9 +373,9 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error('Error:', err);
-  res.status(500).json({
+  res.status(err.status || 500).json({
     success: false,
-    error: 'Internal server error',
+    error: err.status === 413 ? 'Request body too large' : 'Internal server error',
     message: err.message
   });
 });
