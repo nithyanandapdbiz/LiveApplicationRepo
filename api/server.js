@@ -128,6 +128,7 @@ app.get('/api/products', (req, res) => {
     if (minPrice !== undefined) result = result.filter(p => p.price >= parseFloat(minPrice));
     if (maxPrice !== undefined) result = result.filter(p => p.price <= parseFloat(maxPrice));
     if (inStock === 'true') result = result.filter(p => p.stock > 0);
+    if (req.query.onSale === 'true') result = result.filter(p => p.discount > 0);
 
     if (sort) {
       const dir = order === 'desc' ? -1 : 1;
