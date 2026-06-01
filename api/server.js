@@ -349,6 +349,7 @@ app.get('/api/health', (req, res) => {
     uptime: Math.floor(process.uptime()),
     stats: {
       products: products.length,
+      inStock: products.filter(p => p.stock > 0).length,
       categories: categories.length,
       orders: orders.length
     },
