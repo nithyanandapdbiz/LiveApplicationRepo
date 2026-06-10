@@ -20,7 +20,7 @@ export default function Home() {
     <div className="page">
       <section className="hero">
         <div className="hero-content">
-          <span className="hero-eyebrow">— New season· Spring 2026</span>
+          <span className="hero-eyebrow">— New season · Spring 2026</span>
           <h1 className="hero-title">
             Curated goods.
             <br />
@@ -41,7 +41,7 @@ export default function Home() {
         </div>
         <div className="hero-stats">
           <div className="stat">
-            <div className="stat-num">20+</div>
+            <div className="stat-num">16</div>
             <div className="stat-label">Products</div>
           </div>
           <div className="stat">
@@ -59,7 +59,7 @@ export default function Home() {
         <div className="section-header">
           <h2>Featured products</h2>
           <Link to="/products" className="link-arrow">
-            View all →
+            Browse all →
           </Link>
         </div>
 
