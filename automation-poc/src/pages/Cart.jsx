@@ -80,7 +80,19 @@ export default function Cart() {
                 <Link to={`/products/${item.id}`} className="cart-item-title" data-testid="cart-item-title">
                   {item.title}
                 </Link>
-                <div className="cart-item-meta">${item.price.toFixed(2)} each</div>
+                <div className="cart-item-meta">
+                  {item.discount > 0 ? (
+                    <>
+                      <span className="cart-sale-price">
+                        ${(item.price * (1 - item.discount / 100)).toFixed(2)}
+                      </span>
+                      <span className="cart-original-price">${item.price.toFixed(2)}</span>
+                      <span className="cart-discount-tag">{item.discount}% off</span>
+                    </>
+                  ) : (
+                    <>${item.price.toFixed(2)} each</>
+                  )}
+                </div>
               </div>
               <div className="cart-item-controls" data-testid="cart-item-controls">
                 <div className="qty-control" data-testid="cart-qty-control">
@@ -89,7 +101,7 @@ export default function Cart() {
                   <button onClick={() => updateQuantity(item.id, item.quantity + 1)} data-testid="cart-qty-increment">+</button>
                 </div>
                 <div className="cart-item-total" data-testid="cart-item-total">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  ${(item.price * (1 - (item.discount || 0) / 100) * item.quantity).toFixed(2)}
                 </div>
                 <button
                   className="remove-btn"
