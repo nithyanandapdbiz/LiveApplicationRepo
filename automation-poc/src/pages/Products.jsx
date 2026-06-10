@@ -6,6 +6,7 @@ export default function Products() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [activeCategory, setActiveCategory] = useState('all')
+  const [onSaleOnly, setOnSaleOnly] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -38,10 +39,9 @@ export default function Products() {
     fetchData()
   }, [])
 
-  const filtered =
-    activeCategory === 'all'
-      ? products
-      : products.filter((p) => p.category === activeCategory)
+  const filtered = products
+    .filter((p) => activeCategory === 'all' || p.category === activeCategory)
+    .filter((p) => !onSaleOnly || p.discount > 0)
 
   return (
     <div className="page" data-testid="products-page">
@@ -70,6 +70,13 @@ export default function Products() {
             {cat}
           </button>
         ))}
+        <button
+          className={`chip chip-sale ${onSaleOnly ? 'active' : ''}`}
+          onClick={() => setOnSaleOnly((v) => !v)}
+          data-testid="filter-on-sale"
+        >
+          On sale
+        </button>
       </div>
 
       {loading && <div className="loading" data-testid="products-loading">Loading products…</div>}

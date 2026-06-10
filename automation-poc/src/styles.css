@@ -195,6 +195,9 @@ img { display: block; max-width: 100%; }
 .chip.active {
   background: var(--ink); color: var(--bg); border-color: var(--ink);
 }
+.chip-sale.active {
+  background: #e53e3e; border-color: #e53e3e; color: #fff;
+}
 
 /* ============ PRODUCT GRID ============ */
 .grid {

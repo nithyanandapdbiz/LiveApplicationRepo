@@ -14,7 +14,7 @@ export default function Contact() {
   }
 
   return (
-    <div className="page" data-testid="contact-page1">
+    <div className="page" data-testid="contact-page">
       <div className="page-header" data-testid="contact-header">
         <h1>Get in touch</h1>
         <p className="page-subtitle">
