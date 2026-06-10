@@ -58,7 +58,17 @@ export default function ProductDetails() {
           <h1 className="detail-title">{product.title}</h1>
 
           <div className="detail-meta">
-            <span className="detail-price">${product.price.toFixed(2)}</span>
+            {product.discount > 0 ? (
+              <div className="detail-price-group">
+                <span className="detail-price">
+                  ${(product.price * (1 - product.discount / 100)).toFixed(2)}
+                </span>
+                <span className="detail-price-original">${product.price.toFixed(2)}</span>
+                <span className="detail-discount-badge">{product.discount}% off</span>
+              </div>
+            ) : (
+              <span className="detail-price">${product.price.toFixed(2)}</span>
+            )}
             <span className="detail-rating">
               ★ {product.rating?.rate} ({product.rating?.count} reviews)
             </span>

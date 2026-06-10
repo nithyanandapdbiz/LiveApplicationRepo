@@ -351,6 +351,7 @@ app.get('/api/health', (req, res) => {
     stats: {
       products: products.length,
       inStock: products.filter(p => p.stock > 0).length,
+      onSale: products.filter(p => p.discount > 0).length,
       categories: categories.length,
       orders: orders.length
     },

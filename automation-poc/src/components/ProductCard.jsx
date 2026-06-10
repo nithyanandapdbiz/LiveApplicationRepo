@@ -5,6 +5,9 @@ export default function ProductCard({ product }) {
     <Link to={`/products/${product.id}`} className="product-card">
       <div className="product-image">
         <img src={product.image} alt={product.title} loading="lazy" />
+        {product.discount > 0 && (
+          <span className="sale-badge">Sale</span>
+        )}
       </div>
       <div className="product-info">
         <div className="product-category">{product.category}</div>

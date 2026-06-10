@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="footer-inner">
         <div>© 2026 Shoply — built as a POC. Not a real store.</div>
         <div className="footer-meta">
-          <span>Powered by FakeStore API</span>
+          <span>Powered by local API</span>
           <span>·</span>
           <span>v0.1</span>
         </div>
