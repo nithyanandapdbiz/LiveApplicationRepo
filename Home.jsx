@@ -27,7 +27,7 @@ export default function Home() {
             <em>Delivered with care.</em>
           </h1>
           <p className="hero-lede">
-            A small selection of clothing, electronics, and accessories —
+            A small selection of Clothing, Electronics, and Accessories —
             handpicked from across the catalog. No noise, no clutter.
           </p>
           <div className="hero-cta">
