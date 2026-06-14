@@ -31,10 +31,10 @@ export default function Home() {
             handpicked from across the catalog. No noise, no clutter.
           </p>
           <div className="hero-cta">
-            <Link to="/products" className="btn btn-primary">
+            <Link to="/products" className="btn btn-primary1">
               Shop the catalog →
             </Link>
-            <Link to="/contact" className="btn btn-ghost">
+            <Link to="/contact" className="btn btn-ghost1">
               Get in touch
             </Link>
           </div>
