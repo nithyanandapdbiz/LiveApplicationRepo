@@ -20,7 +20,7 @@ export default function Home() {
     <div className="page">
       <section className="hero">
         <div className="hero-content">
-          <span className="hero-eyebrow">— New season · Spring 2026</span>
+          <span className="hero-eyebrow">— New season · Summer 2026</span>
           <h1 className="hero-title">
             Curated goods.
             <br />
@@ -31,10 +31,10 @@ export default function Home() {
             handpicked from across the catalog. No noise, no clutter.
           </p>
           <div className="hero-cta">
-            <Link to="/products" className="btn btn-primary1">
+            <Link to="/products" className="btn btn-primary">
               Shop the catalog →
             </Link>
-            <Link to="/contact" className="btn btn-ghost1">
+            <Link to="/contact" className="btn btn-ghost">
               Get in touch
             </Link>
           </div>
@@ -49,7 +49,7 @@ export default function Home() {
             <div className="stat-label">Categories</div>
           </div>
           <div className="stat">
-            <div className="stat-num">★ 4.0</div>
+            <div className="stat-num">★ 4.5</div>
             <div className="stat-label">Avg. rating</div>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Home() {
 
       <section className="section">
         <div className="section-header">
-          <h2>Featured products</h2>
+          <h2>Featured Products</h2>
           <Link to="/products" className="link-arrow">
             Browse all →
           </Link>
