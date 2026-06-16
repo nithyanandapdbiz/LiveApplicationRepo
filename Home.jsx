@@ -59,12 +59,12 @@ export default function Home() {
         <div className="section-header">
           <h2>Featured Products</h2>
           <Link to="/products" className="link-arrow">
-            Browse all →
+            View all products →
           </Link>
         </div>
 
         {loading ? (
-          <div className="loading">Loading featured items…</div>
+          <div className="loading">Fetching featured items…</div>
         ) : (
           <div className="grid grid-4">
             {featured.map((p) => (
