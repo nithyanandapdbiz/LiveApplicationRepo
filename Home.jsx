@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <div className="page">
-      <section className="hero">
+      <section className="hero2">
         <div className="hero-content">
           <span className="hero-eyebrow">— New season · Summer 2026</span>
           <h1 className="hero-title">
@@ -27,8 +27,8 @@ export default function Home() {
             <em>Delivered with care.</em>
           </h1>
           <p className="hero-lede">
-            A small selection of Clothing, Electronics, and Accessories —
-            handpicked from across the catalog. No noise, no clutter.
+            A curated collection of Clothing, Electronics, and Accessories —
+            handpicked from across the catalog. Quality over quantity.
           </p>
           <div className="hero-cta">
             <Link to="/products" className="btn btn-primary">
@@ -41,7 +41,7 @@ export default function Home() {
         </div>
         <div className="hero-stats">
           <div className="stat">
-            <div className="stat-num">16</div>
+            <div className="stat-num">20</div>
             <div className="stat-label">Products</div>
           </div>
           <div className="stat">
