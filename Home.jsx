@@ -20,7 +20,7 @@ export default function Home() {
     <div className="page">
       <section className="hero2">
         <div className="hero-content">
-          <span className="hero-eyebrow">— New season · Summer 2026</span>
+          <span className="hero-eyebrow">— New arrivals · Summer 2026</span>
           <h1 className="hero-title">
             Curated goods.
             <br />
@@ -32,7 +32,7 @@ export default function Home() {
           </p>
           <div className="hero-cta">
             <Link to="/products" className="btn btn-primary">
-              Shop the catalog →
+              Explore the catalog →
             </Link>
             <Link to="/contact" className="btn btn-ghost">
               Get in touch
