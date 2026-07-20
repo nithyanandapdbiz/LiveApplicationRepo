@@ -5,15 +5,22 @@ import ProductCard from '../components/ProductCard'
 export default function Home() {
   const [featured, setFeatured] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     fetch('http://localhost:5000/api/products?limit=4')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`)
+        return res.json()
+      })
       .then((data) => {
         setFeatured(data.data || [])
         setLoading(false)
       })
-      .catch(() => setLoading(false))
+      .catch((err) => {
+        setError(err.message || 'Failed to load featured products.')
+        setLoading(false)
+      })
   }, [])
 
   return (
@@ -65,6 +72,8 @@ export default function Home() {
 
         {loading ? (
           <div className="loading">Fetching featured items…</div>
+        ) : error ? (
+          <div className="error">{error}</div>
         ) : (
           <div className="grid grid-4">
             {featured.map((p) => (
