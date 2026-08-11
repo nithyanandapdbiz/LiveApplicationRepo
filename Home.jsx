@@ -29,7 +29,7 @@ export default function Home() {
         <div className="hero-content">
           <span className="hero-eyebrow">— New arrivals · Summer 2026</span>
           <h1 className="hero-title">
-            Curated goods.
+            Quality goods.
             <br />
             <em>Delivered with care.</em>
           </h1>
@@ -42,7 +42,7 @@ export default function Home() {
               Shop catalog →
             </Link>
             <Link to="/contact" className="btn btn-ghost">
-              Get in touch
+              Contact us
             </Link>
           </div>
         </div>
@@ -52,7 +52,7 @@ export default function Home() {
             <div className="stat-label">Products</div>
           </div>
           <div className="stat">
-            <div className="stat-num">4</div>
+            <div className="stat-num">6</div>
             <div className="stat-label">Categories</div>
           </div>
           <div className="stat">
