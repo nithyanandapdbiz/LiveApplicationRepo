@@ -39,7 +39,7 @@ export default function Home() {
           </p>
           <div className="hero-cta">
             <Link to="/products" className="btn btn-primary">
-              Explore the catalog →
+              Shop catalog →
             </Link>
             <Link to="/contact" className="btn btn-ghost">
               Get in touch
